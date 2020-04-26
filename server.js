@@ -4,10 +4,6 @@ let x = 0,
   y = 0,
   facing = "South";
 
-const placement = (x, y, f) => {
-  (x = x), (y = x), (facing = f);
-};
-
 const report = () => {
   console.log("location: " + x + ", " + y + " facing " + facing);
 };
@@ -67,42 +63,54 @@ let chosenPosition = false;
 let chosenXaxis = false;
 let chosenYAxis = false;
 
+const chooseX = (input) => {
+  x = input;
+};
+
 while (!chosenXaxis) {
   let xAxis = prompt("Where are you on the x axis?");
 
   if (xAxis >= 1 && xAxis <= 5) {
     console.log("works");
-    x = xAxis;
+    chooseX(xAxis);
     chosenXaxis = true;
   } else {
     console.log("numbers between 1 and 5 please");
   }
 }
 
+const chooseY = (input) => {
+  y = input;
+};
+
 while (!chosenYAxis) {
   let yAxis = prompt("Where are you on the y axis?");
 
   if (yAxis >= 1 && yAxis <= 5) {
     console.log("works");
-    y = yAxis;
+    chooseY(yAxis);
     chosenYAxis = true;
   } else {
     console.log("numbers between 1 and 5 please");
   }
 }
 
+const chooseDirection = (input) => {
+  facing = input;
+};
+
 while (!chosenPosition) {
   let direction = prompt("which direction are you facing?");
 
   if (
     direction === "north" ||
-    direction === "sputh" ||
+    direction === "south" ||
     direction === "east" ||
     direction === "west"
   ) {
     console.log("works");
-    facing = direction;
-    chosenPosition2 = true;
+    chooseDirection(direction);
+    chosenPosition = true;
   } else {
     console.log("north, south, east or west are the only valid commands");
   }
