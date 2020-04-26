@@ -10,18 +10,41 @@ const move = () => {
   const message = (i) => {
     console.log("Oh no! you ran into the " + i + " wall!");
   };
+  let yInt = Number.parseInt(y);
+  let xInt = Number.parseInt(x);
   switch (facing.toLowerCase()) {
     case "south":
-      y += 1;
+      if (yInt >= 5) {
+        message("bottom");
+        y === 5;
+      } else {
+        y = yInt += 1;
+      }
+
       break;
     case "west":
-      x -= 1;
+      if (xInt <= 1) {
+        message("left");
+        x === 0;
+      } else {
+        x = xInt += 1;
+      }
       break;
     case "north":
-      y -= 1;
+      if (yInt <= 1) {
+        message("top");
+        y === 1;
+      } else {
+        y = yInt -= 1;
+      }
       break;
     case "east":
-      x += 1;
+      if (xInt >= 5) {
+        message("right");
+        x === 5;
+      } else {
+        x = xInt += 1;
+      }
       break;
   }
 };
