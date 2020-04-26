@@ -1,61 +1,58 @@
 const prompt = require("prompt-sync")({ sigint: true });
 
-let x = 0,
-  y = 0,
-  facing = "South";
+let x, y, facing;
 
 const report = () => {
   console.log("location: " + x + ", " + y + " facing " + facing);
 };
 
 const move = () => {
-  switch (facing) {
-    case "South":
+  const message = (i) => {
+    console.log("Oh no! you ran into the " + i + " wall!");
+  };
+  switch (facing.toLowerCase()) {
+    case "south":
       y += 1;
       break;
-    case "West":
+    case "west":
       x -= 1;
       break;
-    case "North":
+    case "north":
       y -= 1;
       break;
-    case "East":
+    case "east":
       x += 1;
       break;
   }
 };
 
+const compassArray = ["north", "south", "east", "west"];
+
 const rightTurn = () => {
-  switch (facing) {
-    case "South":
-      facing = "West";
-      break;
-    case "West":
-      facing = "North";
-      break;
-    case "North":
-      facing = "East";
-      break;
-    case "East":
-      facing = "West";
-      break;
+  for (let i = compassArray.length; i >= 0; i--) {
+    if (facing === compassArray[i]) {
+      if (facing !== compassArray[compassArray.length]) {
+        console.log("i+1");
+        facing = compassArray[i + 1];
+      } else {
+        console.log("back to the start");
+        facing = compassArray[0];
+      }
+    }
   }
 };
 
 const leftTurn = () => {
-  switch (facing) {
-    case "South":
-      facing = "East";
-      break;
-    case "East":
-      facing = "North";
-      break;
-    case "North":
-      facing = "West";
-      break;
-    case "West":
-      facing = "South";
-      break;
+  for (let i = 0; i <= compassArray.length; i++) {
+    if (facing === compassArray[i]) {
+      if (facing !== compassArray[0]) {
+        console.log("i-1");
+        facing = compassArray[i - 1];
+      } else {
+        console.log("back to the start");
+        facing = compassArray[compassArray.length];
+      }
+    }
   }
 };
 
@@ -71,7 +68,6 @@ while (!chosenXaxis) {
   let xAxis = prompt("Where are you on the x axis?");
 
   if (xAxis >= 1 && xAxis <= 5) {
-    console.log("works");
     chooseX(xAxis);
     chosenXaxis = true;
   } else {
@@ -87,7 +83,6 @@ while (!chosenYAxis) {
   let yAxis = prompt("Where are you on the y axis?");
 
   if (yAxis >= 1 && yAxis <= 5) {
-    console.log("works");
     chooseY(yAxis);
     chosenYAxis = true;
   } else {
@@ -108,7 +103,6 @@ while (!chosenPosition) {
     direction === "east" ||
     direction === "west"
   ) {
-    console.log("works");
     chooseDirection(direction);
     chosenPosition = true;
   } else {
