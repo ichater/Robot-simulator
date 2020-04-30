@@ -55,10 +55,8 @@ const rightTurn = () => {
   for (let i = compassArray.length; i >= 0; i--) {
     if (facing === compassArray[i]) {
       if (facing !== compassArray[compassArray.length]) {
-        console.log("i+1");
         facing = compassArray[i + 1];
       } else {
-        console.log("back to the start");
         facing = compassArray[0];
       }
     }
@@ -69,10 +67,8 @@ const leftTurn = () => {
   for (let i = 0; i <= compassArray.length; i++) {
     if (facing === compassArray[i]) {
       if (facing !== compassArray[0]) {
-        console.log("i-1");
         facing = compassArray[i - 1];
       } else {
-        console.log("back to the start");
         facing = compassArray[compassArray.length];
       }
     }
