@@ -5,7 +5,7 @@ let x, y, facing;
 const compassArray = [
   { direction: "north", message: "top", add: "y", move: -1, wall: 0 },
   { direction: "east", message: "right", add: "x", move: 1, wall: 5 },
-  { direction: "south", message: "bottom", add: "y", y: 1, wall: 5 },
+  { direction: "south", message: "bottom", add: "y", move: 1, wall: 5 },
   { direction: "west", message: "left", add: "x", move: -1, wall: 0 },
 ];
 
@@ -20,58 +20,17 @@ const move = () => {
   let yInt = Number.parseInt(y);
   let xInt = Number.parseInt(x);
 
-  compassArray.findIndex(function (i) {
-    if (i.add === "x" && x < 5) {
-      x = xInt += 1;
+  for (let i = 0; i <= compassArray.length - 1; i++) {
+    if (facing === compassArray[i].direction) {
+      if (compassArray[i].add === "x" && xInt !== compassArray[i].wall) {
+        x = xInt += compassArray[i].move;
+      } else if (compassArray[i].add === "y" && yInt !== compassArray[i].wall) {
+        y = yInt += compassArray[i].move;
+      } else {
+        message(compassArray[i].message);
+      }
     }
-    //  else {
-    //   message(i.message);
-    // }
-  });
-  compassArray.findIndex(function (i) {
-    if (i.add === "y" && y < 5) {
-      y = yInt += 1;
-    }
-    // else {
-    //   message(i.message);
-    // }
-  });
-
-  // switch (facing.toLowerCase()) {
-  //   case "south":
-  //     if (yInt >= 5) {
-  //       message("bottom");
-  //       y === 5;
-  //     } else {
-  //       y = yInt += 1;
-  //     }
-
-  //     break;
-  //   case "west":
-  //     if (xInt <= 1) {
-  //       message("left");
-  //       x === 0;
-  //     } else {
-  //       x = xInt += 1;
-  //     }
-  //     break;
-  //   case "north":
-  //     if (yInt <= 1) {
-  //       message("top");
-  //       y === 1;
-  //     } else {
-  //       y = yInt -= 1;
-  //     }
-  //     break;
-  //   case "east":
-  //     if (xInt >= 5) {
-  //       message("right");
-  //       x === 5;
-  //     } else {
-  //       x = xInt += 1;
-  //     }
-  //     break;
-  // }
+  }
 };
 
 const rightTurn = () => {
@@ -88,7 +47,7 @@ const rightTurn = () => {
 };
 
 const leftTurn = () => {
-  for (let i = 0; i <= compassArray.length; i++) {
+  for (let i = 0; i <= compassArray.length - 1; i++) {
     if (facing === compassArray[i].direction) {
       if (facing !== compassArray[0].direction) {
         facing = compassArray[i - 1].direction;
