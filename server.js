@@ -3,14 +3,36 @@ const prompt = require("prompt-sync")({ sigint: true });
 let x, y, facing;
 
 const compassArray = [
-  { direction: "north", message: "top", add: "y", move: -1, wall: 0 },
+  { direction: "north", message: "top", add: "y", move: 1, wall: 5 },
   { direction: "east", message: "right", add: "x", move: 1, wall: 5 },
-  { direction: "south", message: "bottom", add: "y", move: 1, wall: 5 },
-  { direction: "west", message: "left", add: "x", move: -1, wall: 0 },
+  { direction: "south", message: "bottom", add: "y", move: -1, wall: 1 },
+  { direction: "west", message: "left", add: "x", move: -1, wall: 1 },
 ];
+
+const compassLength = compassArray.length;
 
 const report = () => {
   console.log("location: " + x + ", " + y + " facing " + facing);
+};
+
+const rightTurn = () => {
+  if (facing === compassArray[compassLength - 1].direction) {
+    facing = compassArray[0].direction;
+  } else {
+    facing =
+      compassArray[compassArray.findIndex((e) => facing === e.direction) + 1]
+        .direction;
+  }
+};
+
+const leftTurn = () => {
+  if (facing === compassArray[0].direction) {
+    facing = compassArray[compassLength - 1].direction;
+  } else {
+    facing =
+      compassArray[compassArray.findIndex((e) => facing === e.direction) - 1]
+        .direction;
+  }
 };
 
 const move = () => {
@@ -20,7 +42,7 @@ const move = () => {
   let yInt = Number.parseInt(y);
   let xInt = Number.parseInt(x);
 
-  for (let i = 0; i <= compassArray.length - 1; i++) {
+  for (let i = 0; i <= compassLength - 1; i++) {
     if (facing === compassArray[i].direction) {
       if (compassArray[i].add === "x" && xInt !== compassArray[i].wall) {
         x = xInt += compassArray[i].move;
@@ -33,33 +55,6 @@ const move = () => {
   }
 };
 
-const rightTurn = () => {
-  for (let i = compassArray.length - 1; i >= 0; i--) {
-    if (facing === compassArray[i].direction) {
-      if (facing === compassArray[compassArray.length - 1].direction) {
-        facing = compassArray[0].direction;
-        break;
-      } else {
-        facing = compassArray[i + 1].direction;
-      }
-    }
-  }
-};
-
-const leftTurn = () => {
-  for (let i = 0; i <= compassArray.length - 1; i++) {
-    if (facing === compassArray[i].direction) {
-      if (facing !== compassArray[0].direction) {
-        facing = compassArray[i - 1].direction;
-        break;
-      } else {
-        facing = compassArray[compassArray.length - 1].direction;
-        break;
-      }
-    }
-  }
-};
-
 let chosenPosition = false;
 let chosenXaxis = false;
 let chosenYAxis = false;
@@ -67,37 +62,24 @@ let chosenYAxis = false;
 const chooseX = (input) => {
   x = input;
 };
+const chooseY = (input) => {
+  y = input;
+};
 
-//Below is a function so it can be recalled upon the "place" command
-const placement = () => {
-  while (!chosenXaxis) {
-    let xAxis = prompt("Where are you on the x axis?");
-
-    if (xAxis >= 1 && xAxis <= 5) {
-      chooseX(xAxis);
-      chosenXaxis = true;
+const chooseAxis = (axisStr, func, chosenAxis) => {
+  while (!chosenAxis) {
+    Axis = prompt("Where are you on the " + axisStr + " axis?");
+    if (Axis >= 1 && Axis <= 5) {
+      func(Axis);
+      chosenAxis = true;
     } else {
       console.log("numbers between 1 and 5 please");
     }
   }
 };
 
-placement();
-
-const chooseY = (input) => {
-  y = input;
-};
-
-while (!chosenYAxis) {
-  let yAxis = prompt("Where are you on the y axis?");
-
-  if (yAxis >= 1 && yAxis <= 5) {
-    chooseY(yAxis);
-    chosenYAxis = true;
-  } else {
-    console.log("numbers between 1 and 5 please");
-  }
-}
+chooseAxis("x", chooseX, chosenXaxis);
+chooseAxis("y", chooseY, chosenYAxis);
 
 const chooseDirection = (input) => {
   facing = input;
@@ -139,7 +121,7 @@ while (chosenPosition) {
       chosenPosition = false;
       chosenXaxis = false;
       chosenYAxis = false;
-      test();
+      placement();
       break;
     default:
       console.log(
